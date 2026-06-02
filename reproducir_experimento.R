@@ -2150,7 +2150,7 @@ print_tiempo(t_s51, "S5.1")
 print_seccion("S5.2 Grafo de comisarias (igraph)", nivel = 2)
 t_s52 <- Sys.time()
 
-RADIO_MAX_KM <- 15
+RADIO_MAX_KM <- 10
 A <- matriz_dist
 A[A > RADIO_MAX_KM] <- 0
 g_cm <- igraph::graph_from_adjacency_matrix(A, mode = "undirected",
@@ -2207,6 +2207,9 @@ t_s54 <- Sys.time()
 
 matriz_apsp <- igraph::distances(g_cm)
 cat(sprintf("  APSP: %d x %d\n", nrow(matriz_apsp), ncol(matriz_apsp)))
+cat("  [Unidades] La matriz de distancias y la APSP estan en KILOMETROS.\n")
+cat("             Tiempo de viaje (min) = km x 1.733 (45 km/h x factor de trafico 1.30).\n")
+cat("             El documento (Cap. 7) reporta los tiempos ya convertidos a minutos.\n")
 cat(sprintf("  Distancia media (km): %.2f\n",
             mean(matriz_apsp[upper.tri(matriz_apsp)])))
 cat(sprintf("  Diametro (km): %.2f\n",
@@ -2225,15 +2228,15 @@ calcular_refuerzos <- function(distrito_obj, top_k = 3) {
   dists <- dists[dists > 0][1:top_k]
   data.frame(
     Distrito_origen = names(dists),
-    Distancia_km    = as.numeric(dists)
+    Distancia_km    = as.numeric(dists),
+    Tiempo_min      = round(as.numeric(dists) * 1.733, 1)
   )
 }
 
-# Para los 3 distritos de mayor riesgo: D6, D11 y D4 (segun pred_distrito_wide).
-distritos_top3 <- head(dt_dist_total$district[
-  order(dt_dist_total$Total, decreasing = TRUE)], 3)
+# Distritos criticos por densidad KDE (Capitulo 6): D7, D10, D11 y D15.
+distritos_criticos <- c(7L, 10L, 11L, 15L)
 
-refuerzos_lista <- lapply(distritos_top3, function(d) {
+refuerzos_lista <- lapply(distritos_criticos, function(d) {
   if (as.character(d) %in% rownames(matriz_apsp)) {
     r <- calcular_refuerzos(d)
     r$Distrito_destino <- d
@@ -2241,7 +2244,7 @@ refuerzos_lista <- lapply(distritos_top3, function(d) {
   } else NULL
 })
 tabla_refuerzos <- do.call(rbind, refuerzos_lista)
-cat("  Top refuerzos para los 3 distritos de mayor volumen:\n")
+cat(sprintf("  Top refuerzos para los 4 distritos criticos KDE (D7, D10, D11, D15):\n"))
 print(tabla_refuerzos)
 print_tiempo(t_s55, "S5.5")
 
@@ -2287,25 +2290,24 @@ print_seccion("S5.7 Asignacion patrullas y briefings", nivel = 2)
 t_s57 <- Sys.time()
 
 PATRULLAS_DIA <- sum(comisarias$patrullas_efectivas)  # plantilla efectiva data-driven, no un total arbitrario
-turnos_dist <- c(Manana = 0.30, Tarde = 0.42, Noche = 0.28)
-
-asignar_patrullas <- function(pred_total_distrito, total_patrullas, turnos) {
-  proporcion <- pred_total_distrito / sum(pred_total_distrito)
-  patrullas_distrito <- round(proporcion * total_patrullas)
-  patrullas_por_turno <- outer(patrullas_distrito, turnos)
-  rownames(patrullas_por_turno) <- as.character(pred_distrito_wide$district)
-  patrullas_por_turno
-}
-
-asignacion <- asignar_patrullas(
-  pred_distrito_wide$Total,
-  PATRULLAS_DIA,
-  turnos_dist
+# Asignacion por PLANTILLA FIJA: cada distrito patrulla con su propia plantilla
+# efectiva (plazas fijas; los efectivos no se reasignan de distrito a diario),
+# repartida entre turnos con la distribucion horaria empirica (dist_turnos).
+.pm <- dist_turnos$pct[dist_turnos$turno == "Manana"] / 100
+.pt <- dist_turnos$pct[dist_turnos$turno == "Tarde"]  / 100
+.ef <- comisarias$patrullas_efectivas
+asignacion_df <- data.frame(
+  Manana = round(.ef * .pm),
+  Tarde  = round(.ef * .pt),
+  Noche  = .ef - round(.ef * .pm) - round(.ef * .pt),
+  Total  = .ef
 )
-asignacion_df <- as.data.frame(asignacion)
-asignacion_df$Total <- rowSums(asignacion)
-cat(sprintf("  Tabla 7.2 Asignacion patrullas dia tipo (%d patrullas efectivas):\n", PATRULLAS_DIA))
+rownames(asignacion_df) <- as.character(comisarias$distrito)
+asignacion <- as.matrix(asignacion_df[, c("Manana", "Tarde", "Noche")])
+cat(sprintf("  Tabla 7.2 Asignacion patrullas dia tipo (%d patrullas efectivas, plantilla fija):\n", PATRULLAS_DIA))
 print(head(asignacion_df, 10))
+cat(sprintf("  Totales por turno: Manana=%d Tarde=%d Noche=%d (total %d)\n",
+            sum(asignacion_df$Manana), sum(asignacion_df$Tarde), sum(asignacion_df$Noche), PATRULLAS_DIA))
 
 #
 dist_nombres <- c(
