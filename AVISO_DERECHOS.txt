@@ -1,0 +1,15 @@
+Todos los derechos reservados.
+
+Copyright (c) 2026
+
+Este repositorio se publica con el único fin de garantizar la transparencia y la
+reproducibilidad del trabajo académico al que acompaña. Su contenido (código y
+materiales) esta protegido por derechos de autor.
+
+No se concede ninguna autorización para copiar, modificar, redistribuir, publicar
+ni utilizar este código o estos datos, en todo o en parte, sin el permiso previo y
+por escrito del autor. La consulta y la descarga se permiten exclusivamente a
+efectos de revisión y verificación del trabajo.
+
+Los conjuntos de datos pertenecen a sus respectivas fuentes y se rigen por sus
+propias condiciones de uso.

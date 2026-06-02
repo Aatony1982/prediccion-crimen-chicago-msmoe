@@ -1,0 +1,23 @@
+"distrito","nombre","direccion","lat","lon","personal_total","area_km2","poblacion","clasificacion","agentes_calle","agentes_oficina","agentes_baja","patrullas_teoricas","patrullas_efectivas","densidad_patrullas","habitantes_por_patrulla"
+1,"Central","1718 South State Street",41.8562,-87.6274,285,12.5,85000,"NORMAL",185,43,57,92,66,5.28,1288
+2,"Wentworth","5101 South Wentworth Avenue",41.8014,-87.6261,230,18.2,95000,"NORMAL",150,34,46,75,54,2.97,1759
+3,"Grand Crossing","7040 South Cottage Grove Avenue",41.7661,-87.6062,245,22.4,88000,"MODERADO",159,37,49,79,56,2.5,1571
+4,"South Chicago","2255 East 103rd Street",41.7133,-87.5326,210,28.6,72000,"NORMAL",136,32,42,68,49,1.71,1469
+5,"Calumet","727 East 111th Street",41.6927,-87.5989,225,35.2,78000,"NORMAL",146,34,45,73,52,1.48,1500
+6,"Gresham","7808 South Halsted Street",41.7517,-87.6423,240,19.8,92000,"MODERADO",156,36,48,78,56,2.83,1643
+7,"Englewood","1438 West 63rd Street",41.7803,-87.6392,280,15.6,68000,"CRÍTICO",182,42,56,91,65,4.17,1046
+8,"Chicago Lawn","3420 West 63rd Street",41.778,-87.7127,255,21.3,105000,"NORMAL",166,38,51,83,59,2.77,1780
+9,"Deering","3120 South Halsted Street",41.838,-87.647,220,14.7,82000,"NORMAL",143,33,44,71,51,3.47,1608
+10,"Ogden","3315 West Ogden Avenue",41.8565,-87.7098,235,16.9,89000,"ALTO",153,35,47,76,54,3.2,1648
+11,"Harrison","3151 West Harrison Street",41.8735,-87.7058,260,13.4,76000,"ALTO",169,39,52,84,60,4.48,1267
+12,"Near West","1412 South Blue Island Avenue",41.8642,-87.6604,215,11.2,94000,"NORMAL",140,32,43,70,50,4.46,1880
+14,"Shakespeare","2150 North California Avenue",41.921,-87.6972,250,17.8,112000,"MODERADO",162,38,50,81,58,3.26,1931
+15,"Austin","5701 West Madison Avenue",41.8808,-87.7674,275,24.5,98000,"CRÍTICO",179,41,55,89,64,2.61,1531
+16,"Jefferson Park","5151 North Milwaukee Avenue",41.9732,-87.7586,195,31.2,125000,"NORMAL",127,29,39,63,45,1.44,2778
+17,"Albany Park","4650 North Pulaski Road",41.9656,-87.7261,185,22.6,108000,"NORMAL",120,28,37,60,43,1.9,2512
+18,"Near North","1160 North Larrabee Avenue",41.9046,-87.6372,270,8.9,135000,"NORMAL",176,40,54,88,63,7.08,2143
+19,"Town Hall","850 West Addison Street",41.9476,-87.6531,240,15.3,118000,"NORMAL",156,36,48,78,56,3.66,2107
+20,"Lincoln","5400 North Lincoln Avenue",41.979,-87.6897,180,19.4,95000,"NORMAL",117,27,36,58,41,2.11,2317
+22,"Morgan Park","1900 West Monterey Avenue",41.6934,-87.6654,205,32.8,88000,"NORMAL",133,31,41,66,47,1.43,1872
+24,"Rogers Park","6464 North Clark Street",42.0026,-87.6711,175,12.1,78000,"NORMAL",114,26,35,57,41,3.39,1902
+25,"Grand Central","5555 West Grand Avenue",41.9173,-87.7673,265,20.7,115000,"NORMAL",172,40,53,86,61,2.95,1885
